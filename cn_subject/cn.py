@@ -118,14 +118,14 @@ def get_single_question_output(question: Questions, response: Response):
     }
 
 @router.get("/multiple/question")
-def get_single_question_output(question_list: Questions, response: Response):
+def get_multiple_question_output(question_list: Questions, response: Response):
     if not question_list.question_list:
         response.status_code = 400
         return {"message": "question missing"}
     question_list = question_list.question_list
-
-    question_topic_dict_list = get_topics_with_mapping([question_list])
-
+    print(question_list)
+    question_topic_dict_list = get_topics_with_mapping(question_list)
+    print(question_topic_dict_list)
     return {
         "message": "Topics predicted successfully",
         "data": question_topic_dict_list
