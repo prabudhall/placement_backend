@@ -11,6 +11,7 @@ router = APIRouter()
 mapping_data = pd.read_csv("cn_subject/mapping.csv")
 model = BERTopic.load("cn_subject/model")
 print("model loaded")
+
 def ls(text):
     return WordNetLemmatizer().lemmatize(text, pos='v')
 
@@ -64,12 +65,12 @@ def get_topics_with_mapping(ques_list):
                 "question": ques,
                 "matching_topic": [
                     {
-                        "bertopic": mapping_data[mapping_data['bucket_topic_number'] == similar_topics[1] + 1],
+                        "bertopic": mapping_data[mapping_data['bucket_topic_number'] == similar_topics[1] + 1]["bucket_topic"],
                         "book_topic": book_topic_1,
                         "score": score_1
                     },
                     {
-                        "bertopic": mapping_data[mapping_data['bucket_topic_number'] == similar_topics[0] + 1],
+                        "bertopic": mapping_data[mapping_data['bucket_topic_number'] == similar_topics[0] + 1]["bucket_topic"],
                         "book_topic": book_topic_2,
                         "score": score_2
                     }
@@ -80,12 +81,12 @@ def get_topics_with_mapping(ques_list):
                 "question": ques,
                 "matching_topic": [
                     {
-                        "bertopic": mapping_data[mapping_data['bucket_topic_number'] == similar_topics[0] + 1],
+                        "bertopic": mapping_data[mapping_data['bucket_topic_number'] == similar_topics[0] + 1]["bucket_topic"],
                         "book_topic": book_topic_1,
                         "score": score_1
                     },
                     {
-                        "bertopic": mapping_data[mapping_data['bucket_topic_number'] == similar_topics[1] + 1],
+                        "bertopic": mapping_data[mapping_data['bucket_topic_number'] == similar_topics[1] + 1]["bucket_topic"],
                         "book_topic": book_topic_2,
                         "score": score_2
                     }
@@ -108,9 +109,9 @@ def get_single_question_output(question: Questions, response: Response):
         response.status_code = 400
         return {"message": "question missing"}
     question = question.question
-
+    print(question)
     question_topic_dict = get_topics_with_mapping([question])[0]
-
+    print(question_topic_dict)
     return {
         "message": "Topic predicted successfully",
         "data": question_topic_dict
