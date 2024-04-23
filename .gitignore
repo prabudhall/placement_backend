@@ -13,3 +13,6 @@ __pycache__/
 .idea
 idea/
 
+# Models
+*/model
+model
